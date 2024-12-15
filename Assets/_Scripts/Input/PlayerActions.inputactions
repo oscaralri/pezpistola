@@ -1,0 +1,57 @@
+{
+    "name": "PlayerActions",
+    "maps": [
+        {
+            "name": "Fishing",
+            "id": "6c18947f-60a5-478f-8981-1268ee63d59d",
+            "actions": [
+                {
+                    "name": "Click",
+                    "type": "Button",
+                    "id": "74325d34-e634-47f5-8d03-bce675bec6f6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "4cca6c79-aa3f-4b5d-8a77-c5aac93639ec",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6585436d-1d7e-4216-a2ef-4ee729011c8d",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Keyboard",
+            "bindingGroup": "Keyboard",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}

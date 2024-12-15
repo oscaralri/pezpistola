@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IFishingSystem
 {
-   FishingState _fishingState {get; set;}
+   FishingState _fishingState {get; }
 }
 
 public enum FishingState {Waiting, Fishing}

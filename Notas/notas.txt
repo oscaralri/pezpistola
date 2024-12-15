@@ -1,0 +1,7 @@
+- le doy a tirar 
+- pasa a cosas de estar debajo del agua
+
+- debajo del agua:
+	- random time para que pique
+	- cuando pica tienes x segundos para darle otra vez
+
