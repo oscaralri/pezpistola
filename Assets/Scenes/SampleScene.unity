@@ -471,7 +471,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
@@ -537,8 +537,9 @@ GameObject:
   - component: {fileID: 2020420771}
   - component: {fileID: 2020420772}
   - component: {fileID: 2020420773}
+  - component: {fileID: 2020420774}
   m_Layer: 0
-  m_Name: '@GameManager'
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -575,9 +576,10 @@ MonoBehaviour:
   - {fileID: 6306313268293252362, guid: cebe972211c4f5248a190396e77b6b55, type: 3}
   - {fileID: 7025017311482910568, guid: 8c9f5e8e406c7bf439f322236563a52f, type: 3}
   - {fileID: 7682598746229621922, guid: 731aa0532708227458e7925652f870c0, type: 3}
-  posToSpawn: {x: 0, y: 0, z: 0}
+  posToSpawn: {x: 0, y: 1, z: 0}
   rotationSpawn: {x: 0, y: 0, z: 0, w: 0}
-  _inputSystem: {fileID: 1115184187}
+  fishInstance: {fileID: 0}
+  force: {x: 0, y: 10, z: 0}
 --- !u!114 &2020420773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -590,6 +592,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad35e1b236b34da468753ac8ac34b144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2020420774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020420770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0604c95bba6557b478f46813d6d9f6ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameState: 0
   _inputSystem: {fileID: 1115184187}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

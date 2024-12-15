@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,30 +8,36 @@ public class FishSpawner : MonoBehaviour
     [SerializeField] private List<GameObject> fishPrefabs;
     [SerializeField] private Vector3 posToSpawn;
     [SerializeField] private Quaternion rotationSpawn;
+    public GameObject fishInstance;
+    public Vector3 force;
 
-    public void SpawnFish()
+    private float timeDespawn = 2f;
+
+    public void SpawnFish(Action callback)
     {
-        StartCoroutine(SpawnCoroutine());
+        StartCoroutine(SpawnCoroutine(callback));
     }
 
-    private IEnumerator SpawnCoroutine()
+    private IEnumerator SpawnCoroutine(Action callback)
     {
-        int randomTime = Random.Range(2, 6); // AUMENTARLO AL ACABAR
+        int randomTime = UnityEngine.Random.Range(2, 6); // AUMENTARLO AL ACABAR
         yield return new WaitForSeconds(randomTime);
 
-        int random = Random.Range(0, 3);
-        Instantiate(fishPrefabs[random], posToSpawn, rotationSpawn);      
-        GameManager.Instance.gameState = GameState.FishingGame;
+        int random = UnityEngine.Random.Range(0, fishPrefabs.Count);
+        fishInstance = Instantiate(fishPrefabs[random], posToSpawn, rotationSpawn);
+
+        GameManager.Instance.gameState = GameState.CatchFishGame;
+
+        StartCoroutine(Despawn(fishInstance, callback));
     }
 
-    // PARA DEBUG (BORRAR EN FUTURO)
-    
-    private void Update()
+    private IEnumerator Despawn(GameObject instance, Action callback)
     {
-        if(Input.GetKeyDown(KeyCode.P))
+        yield return new WaitForSeconds(timeDespawn);
+        if(GameManager.Instance.gameState != GameState.GunGame) 
         {
-            SpawnFish();
+            Destroy(instance);
+            callback?.Invoke();
         }
     }
-
 }
