@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public enum GameState {IdleGame, WaitForFish, CatchFishGame, GunGame}
 
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour
     private FishSpawner _fishSpawner;
     [SerializeField] private InputSystem _inputSystem;
     private CameraMovement _camera;
+    [SerializeField] AnimationManager _animationManager;
 
     private void Awake()
     {
@@ -67,6 +69,8 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.GunGame:
+                Shoot();
+                _animationManager.PlayAnim(Anim.Gun, FinishShot);
                 break;
         }
     }
@@ -82,5 +86,19 @@ public class GameManager : MonoBehaviour
         Rigidbody rb = instance.GetComponent<Rigidbody>();
         rb.AddForce(force, ForceMode.Impulse); 
         rb.AddTorque(Vector3.left * 10f, ForceMode.Force);
+    }
+
+    private void Shoot()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        _inputSystem.GetComponent<PlayerInput>().enabled = false;
+    }
+
+    private void FinishShot()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        _inputSystem.GetComponent<PlayerInput>().enabled = true;
     }
 }
