@@ -5,17 +5,28 @@ using UnityEngine;
 
 public class AnimationManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _fishRod, _gun;
+    private GameObject _fishRod, _gun;
     [SerializeField] private float gunRotationTime = 0.5f;
+    private Animator _fishRodAnimator;
+
+    private void Start()
+    {
+        _fishRod = GameManager.Instance._fishRod;
+        _gun = GameManager.Instance._gun;
+        
+        _fishRodAnimator = _fishRod.GetComponent<Animator>();
+    }
 
     public void PlayAnim(Anim anim, Action callback)
     {
-        switch(anim)
+        switch (anim)
         {
             case Anim.FishRodThrow:
+                FishRodThrowAnim(callback);
                 break;
-            
+
             case Anim.FishRodReturn:
+                FishRodReturnAnim(callback);
                 break;
 
             case Anim.Gun:
@@ -26,12 +37,14 @@ public class AnimationManager : MonoBehaviour
 
     private void FishRodThrowAnim(Action callback)
     {
-        
+        _fishRodAnimator.Play("fishRodAnim");
+        StartCoroutine(WaitForAnim(callback));
     }
 
     private void FishRodReturnAnim(Action callback)
     {
-
+        _fishRodAnimator.Play("fishRodReturnAnim");
+        StartCoroutine(WaitForAnim(callback));
     }
 
     private IEnumerator GunAnim(Action callback)
@@ -50,6 +63,16 @@ public class AnimationManager : MonoBehaviour
         _gun.transform.rotation = Quaternion.Euler(0, targetRotation, 0);
         callback();
     }
+
+    private IEnumerator WaitForAnim(Action callback)
+    {
+        AnimatorStateInfo stateInfo = _fishRodAnimator.GetCurrentAnimatorStateInfo(0);
+        float animationDuration = stateInfo.length;
+
+        yield return new WaitForSeconds(animationDuration);
+
+        callback?.Invoke();
+    }
 }
 
-public enum Anim {FishRodThrow, Gun, FishRodReturn}
+public enum Anim { FishRodThrow, Gun, FishRodReturn }

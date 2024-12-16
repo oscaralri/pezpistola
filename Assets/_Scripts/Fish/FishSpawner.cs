@@ -8,6 +8,7 @@ public class FishSpawner : MonoBehaviour
     [SerializeField] private List<GameObject> fishPrefabs;
     [SerializeField] private Vector3 posToSpawn;
     [SerializeField] private Quaternion rotationSpawn;
+    [SerializeField] private float timeOnGun = 2f;
     public GameObject fishInstance;
     public Vector3 force;
     private float timeDespawn = 2f;
@@ -25,7 +26,7 @@ public class FishSpawner : MonoBehaviour
         int random = UnityEngine.Random.Range(0, fishPrefabs.Count);
         fishInstance = Instantiate(fishPrefabs[random], posToSpawn, rotationSpawn);
 
-        GameManager.Instance.gameState = GameState.CatchFishGame;
+        if(GameManager.Instance.gameState == GameState.WaitForFish) GameManager.Instance.gameState = GameState.CatchFishGame;
 
         StartCoroutine(Despawn(fishInstance, callback));
     }
@@ -35,6 +36,12 @@ public class FishSpawner : MonoBehaviour
         yield return new WaitForSeconds(timeDespawn);
         if(GameManager.Instance.gameState != GameState.GunGame) 
         {
+            Destroy(instance);
+            callback?.Invoke();
+        }
+        else
+        {
+            yield return new WaitForSeconds(timeOnGun);
             Destroy(instance);
             callback?.Invoke();
         }

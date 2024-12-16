@@ -14,6 +14,7 @@ public abstract class AFish : MonoBehaviour, IPointerClickHandler
         if(eventData.pointerCurrentRaycast.gameObject.transform.GetComponent<Collider>() == hitCollider.gameObject)
         {
             Debug.Log("golpe");
+            GameManager.Instance.scoreManager.AddPoints();
         }
     }
 }
