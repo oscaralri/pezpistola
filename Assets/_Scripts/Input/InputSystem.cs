@@ -30,9 +30,13 @@ public class InputSystem : MonoBehaviour
         click?.Invoke();
 
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-        if ((!Physics.Raycast(ray, out RaycastHit hit) || !hit.collider.GetComponent<AFish>()) && GameManager.Instance.gameState == GameState.GunGame)
+        if ((!Physics.Raycast(ray, out RaycastHit hit) || !hit.collider.GetComponentInParent<AFish>()) && GameManager.Instance.gameState == GameState.GunGame)
         {
             GameManager.Instance.scoreManager.AddMisses();
+        }
+        if(Physics.Raycast(ray, out RaycastHit hitInfo) && hit.collider.GetComponentInParent<AFish>() && GameManager.Instance.gameState == GameState.GunGame)
+        {
+            GameManager.Instance.scoreManager.AddPoints();
         }
     }
 }

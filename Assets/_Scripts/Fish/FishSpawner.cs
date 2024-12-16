@@ -6,8 +6,7 @@ using UnityEngine;
 public class FishSpawner : MonoBehaviour
 {
     [SerializeField] private List<GameObject> fishPrefabs;
-    [SerializeField] private Vector3 posToSpawn;
-    [SerializeField] private Quaternion rotationSpawn;
+    [SerializeField] private Vector3 posSpawn = new Vector3(0f, 0f, 0f);
     [SerializeField] private float timeOnGun = 2f;
     public GameObject fishInstance;
     public Vector3 force;
@@ -24,9 +23,10 @@ public class FishSpawner : MonoBehaviour
         yield return new WaitForSeconds(randomTime);
 
         int random = UnityEngine.Random.Range(0, fishPrefabs.Count);
-        fishInstance = Instantiate(fishPrefabs[random], posToSpawn, rotationSpawn);
+        fishInstance = Instantiate(fishPrefabs[random], posSpawn, Quaternion.Euler(90f, 0f, 0f));
+        Rigidbody rb = fishInstance.GetComponent<Rigidbody>();
 
-        if(GameManager.Instance.gameState == GameState.WaitForFish) GameManager.Instance.gameState = GameState.CatchFishGame;
+        if (GameManager.Instance.gameState == GameState.WaitForFish) GameManager.Instance.gameState = GameState.CatchFishGame;
 
         StartCoroutine(Despawn(fishInstance, callback));
     }
@@ -34,12 +34,12 @@ public class FishSpawner : MonoBehaviour
     private IEnumerator Despawn(GameObject instance, Action callback)
     {
         yield return new WaitForSeconds(timeDespawn);
-        if(GameManager.Instance.gameState != GameState.GunGame) 
+        if (GameManager.Instance.gameState == GameState.CatchFishGame)
         {
             Destroy(instance);
             callback?.Invoke();
         }
-        else
+        if(GameManager.Instance.gameState == GameState.GunGame)
         {
             yield return new WaitForSeconds(timeOnGun);
             Destroy(instance);

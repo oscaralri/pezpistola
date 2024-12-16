@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     [SerializeField] private Transform _transformLookAt;
-    [SerializeField] private float zoomPos = 2f;
+    [SerializeField] private float zoomPos = 6f;
     private Vector3 _initPos;
     private Quaternion _initRot;
 
