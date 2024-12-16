@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class BlueFish : MonoBehaviour
+public class BlueFish : AFish
 {
-    public FishType fishType {get; private set;} = FishType.Blue;
-    [SerializeField] private Collider hitCollider;
+    
 }

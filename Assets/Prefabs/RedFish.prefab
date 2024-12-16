@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1606859635736239833}
   - component: {fileID: 190486779513779756}
   - component: {fileID: 8541705970009221780}
+
   m_Layer: 0
   m_Name: RedFish
   m_TagString: Untagged

@@ -28,5 +28,11 @@ public class InputSystem : MonoBehaviour
     private void OnPress(InputAction.CallbackContext context)
     {
         click?.Invoke();
+
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        if ((!Physics.Raycast(ray, out RaycastHit hit) || !hit.collider.GetComponent<AFish>()) && GameManager.Instance.gameState == GameState.GunGame)
+        {
+            GameManager.Instance.scoreManager.AddMisses();
+        }
     }
 }

@@ -4,45 +4,31 @@ using UnityEngine;
 
 public class FishingSystem : MonoBehaviour, IFishingSystem 
 {
-    public FishingState _fishingState { get; private set; } = FishingState.Waiting;
-    [SerializeField] private InputSystem _inputSystem;
-
     private FishSpawner _fishSpawner;
 
     private void Start()
     {
         _fishSpawner = GetComponent<FishSpawner>();
     }
-
-    private void OnEnable()
-    {
-        _inputSystem.click += OnClick;
-    }
-
-    private void OnDisable()
-    {
-        _inputSystem.click -= OnClick;
-    }
-
+/*
     private void Update()
     {
         switch(GameManager.Instance.gameState)
         {
             case GameState.IdleGame:
-                _fishSpawner.SpawnFish();
+                // esperando a realizar accion
                 break;
 
             case GameState.FishingGame:
+                // spawnear pez
                 break;
-
+            case GameState.CatchFishGame:
+                // aparece pez -> comprobar si lo coge
+                break;
             case GameState.GunGame:
+                // ha pillado pez
                 break;
         }
     }
-
-    private void OnClick()
-    {
-        _fishingState = _fishingState == FishingState.Waiting ? FishingState.Fishing : FishingState.Waiting;
-        Debug.Log("_fishingState: " + _fishingState);
-    }
+    */
 }
