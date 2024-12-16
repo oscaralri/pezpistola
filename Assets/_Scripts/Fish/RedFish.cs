@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class RedFish : IFish
+public class RedFish : AFish
 {
-    public FishType fishType {get; private set;} = FishType.Red;
-    [SerializeField] private Collider hitCollider;
+    
 }

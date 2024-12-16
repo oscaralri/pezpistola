@@ -10,7 +10,6 @@ public class FishSpawner : MonoBehaviour
     [SerializeField] private Quaternion rotationSpawn;
     public GameObject fishInstance;
     public Vector3 force;
-
     private float timeDespawn = 2f;
 
     public void SpawnFish(Action callback)

@@ -7,14 +7,11 @@ public enum GameState {IdleGame, WaitForFish, CatchFishGame, GunGame}
 
 public class GameManager : MonoBehaviour
 {
-    public GameState gameState;
-
-    private FishSpawner _fishSpawner;
-
-
-    [SerializeField] private InputSystem _inputSystem;
-
     public static GameManager Instance { get; private set; }
+    public GameState gameState;
+    private FishSpawner _fishSpawner;
+    [SerializeField] private InputSystem _inputSystem;
+    private CameraMovement _camera;
 
     private void Awake()
     {
@@ -33,6 +30,8 @@ public class GameManager : MonoBehaviour
     {
         gameState = GameState.IdleGame;
         _fishSpawner = GetComponent<FishSpawner>();
+        _camera = Camera.main.GetComponent<CameraMovement>();
+        Cursor.visible = false;
     }
 
     private void OnEnable()
@@ -50,7 +49,8 @@ public class GameManager : MonoBehaviour
         switch(GameManager.Instance.gameState)
         {
             case GameState.IdleGame:
-                // esperando a realizar accion
+                if(Cursor.visible) Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
                 _fishSpawner.SpawnFish(OnDestroy);
                 gameState = GameState.WaitForFish;
                 break;
@@ -59,14 +59,14 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.CatchFishGame:
-                // aparece pez -> comprobar si lo coge
                 Debug.Log("Pez pillado");
-                gameState = GameState.GunGame;
+                _camera.ZoomCamera();
                 ApplyForce(_fishSpawner.fishInstance, _fishSpawner.force);
+                Cursor.visible = true;
+                gameState = GameState.GunGame;
                 break;
 
             case GameState.GunGame:
-                // ha pillado pez
                 break;
         }
     }
@@ -78,9 +78,9 @@ public class GameManager : MonoBehaviour
     }
 
     private void ApplyForce(GameObject instance, Vector3 force)
-    {
-        
+    {   
         Rigidbody rb = instance.GetComponent<Rigidbody>();
         rb.AddForce(force, ForceMode.Impulse); 
+        rb.AddTorque(Vector3.left * 10f, ForceMode.Force);
     }
 }
