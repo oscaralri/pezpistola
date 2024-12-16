@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public enum GameState {IdleGame, WaitForFish, CatchFishGame, GunGame}
+public enum GameState { IdleGame, WaitForFish, CatchFishGame, GunGame }
 
 public class GameManager : MonoBehaviour
 {
@@ -14,13 +15,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private InputSystem _inputSystem;
     private CameraMovement _camera;
     [SerializeField] AnimationManager _animationManager;
+    [SerializeField] public GameObject _gun, _fishRod;
+    public ScoreManager scoreManager;
 
     private void Awake()
     {
         if (Instance == null)
         {
-            Instance = this; 
-            DontDestroyOnLoad(gameObject); 
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else if (Instance != this)
         {
@@ -34,13 +37,14 @@ public class GameManager : MonoBehaviour
         _fishSpawner = GetComponent<FishSpawner>();
         _camera = Camera.main.GetComponent<CameraMovement>();
         Cursor.visible = false;
+        scoreManager = GetComponent<ScoreManager>();
     }
 
     private void OnEnable()
     {
         _inputSystem.click += OnClick;
     }
-    
+
     private void OnDisable()
     {
         _inputSystem.click -= OnClick;
@@ -48,24 +52,21 @@ public class GameManager : MonoBehaviour
 
     private void OnClick()
     {
-        switch(GameManager.Instance.gameState)
+        switch (GameManager.Instance.gameState)
         {
             case GameState.IdleGame:
-                if(Cursor.visible) Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
-                _fishSpawner.SpawnFish(OnDestroy);
-                gameState = GameState.WaitForFish;
+                BeforeWaitForFish();
+
                 break;
 
             case GameState.WaitForFish:
+                ReturnFishRod();
                 break;
 
             case GameState.CatchFishGame:
                 Debug.Log("Pez pillado");
-                _camera.ZoomCamera();
-                ApplyForce(_fishSpawner.fishInstance, _fishSpawner.force);
-                Cursor.visible = true;
-                gameState = GameState.GunGame;
+                BeforeGunGame();
+
                 break;
 
             case GameState.GunGame:
@@ -77,14 +78,25 @@ public class GameManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameManager.Instance.gameState = GameState.WaitForFish;
-        _fishSpawner.SpawnFish(OnDestroy);
+        if (GameManager.Instance.gameState == GameState.CatchFishGame)
+        {
+            GameManager.Instance.gameState = GameState.WaitForFish;
+            _fishSpawner.SpawnFish(OnDestroy);
+        }
+        if (GameManager.Instance.gameState == GameState.GunGame)
+        {
+            _camera.ResetCamera();
+            _gun.SetActive(false);
+            _fishRod.SetActive(true);
+            GameManager.Instance.gameState = GameState.IdleGame;
+        }
+
     }
 
     private void ApplyForce(GameObject instance, Vector3 force)
-    {   
+    {
         Rigidbody rb = instance.GetComponent<Rigidbody>();
-        rb.AddForce(force, ForceMode.Impulse); 
+        rb.AddForce(force, ForceMode.Impulse);
         rb.AddTorque(Vector3.left * 10f, ForceMode.Force);
     }
 
@@ -92,13 +104,47 @@ public class GameManager : MonoBehaviour
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        _inputSystem.GetComponent<PlayerInput>().enabled = false;
+        _inputSystem.enabled = false;
     }
 
     private void FinishShot()
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-        _inputSystem.GetComponent<PlayerInput>().enabled = true;
+        _inputSystem.enabled = true;
+    }
+
+    private void BeforeWaitForFish()
+    {
+        _inputSystem.enabled = false;
+        if (Cursor.visible) Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        _fishSpawner.SpawnFish(OnDestroy);
+        _animationManager.PlayAnim(Anim.FishRodThrow, FinishFishRodThrow);
+    }
+
+    private void FinishFishRodThrow()
+    {
+        _inputSystem.enabled = true;
+        gameState = GameState.WaitForFish;
+    }
+
+    private void BeforeGunGame()
+    {
+        _inputSystem.enabled = false;
+        _fishRod.SetActive(false);
+        _camera.ZoomCamera();
+        ApplyForce(_fishSpawner.fishInstance, _fishSpawner.force);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        _gun.SetActive(true);
+        _inputSystem.enabled = true;
+
+        gameState = GameState.GunGame;
+    }
+
+    private void ReturnFishRod()
+    {
+        _animationManager.PlayAnim(Anim.FishRodThrow, () => gameState = GameState.IdleGame);
     }
 }
