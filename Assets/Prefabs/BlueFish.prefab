@@ -66,7 +66,7 @@ GameObject:
   - component: {fileID: 7833720834517130232}
   - component: {fileID: 7213122112805600709}
   - component: {fileID: 8875571220822883846}
-  - component: {fileID: 2420320336062150147}
+  - component: {fileID: -5886516292203277648}
   m_Layer: 0
   m_Name: BlueFish
   m_TagString: Untagged
@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitCollider: {fileID: 5026852050373957649}
---- !u!54 &2420320336062150147
+--- !u!54 &-5886516292203277648
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
