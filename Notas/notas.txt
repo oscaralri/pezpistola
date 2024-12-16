@@ -5,3 +5,17 @@
 	- random time para que pique
 	- cuando pica tienes x segundos para darle otra vez
 
+
+
+
+COSAS DE STATES
+idleGame (antes de tirar caña):
+	- lanza caña -> avisa a spawnear
+
+
+fishingGame (caña en el agua):
+	- que este solo se active si 	
+
+catchFishGame (cuando hay pescado para pescar):
+
+gunGame (lo de la pistola):
