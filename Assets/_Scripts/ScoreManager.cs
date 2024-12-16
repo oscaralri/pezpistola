@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class ScoreManager : MonoBehaviour
         else
         {
             Debug.Log("has perdido");
+            SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
         }
     }
 }

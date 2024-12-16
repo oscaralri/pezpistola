@@ -66,7 +66,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: fishRodReturnAnim
-  m_Speed: 1
+  m_Speed: -1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -2416708309172761867}
@@ -79,7 +79,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 9dca82dc8676b044b9d901d726637e1d, type: 2}
+  m_Motion: {fileID: 7400000, guid: cd15049f1c9459649969f6f7d1aef310, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

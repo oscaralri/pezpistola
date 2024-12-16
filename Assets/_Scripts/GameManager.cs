@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] AnimationManager _animationManager;
     [SerializeField] public GameObject _gun, _fishRod;
     public ScoreManager scoreManager;
+    [SerializeField] private Material waterBlue, waterRed;
+    [SerializeField] private GameObject waterPlane;
 
     private void Awake()
     {
@@ -28,6 +30,18 @@ public class GameManager : MonoBehaviour
         else if (Instance != this)
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void Update()
+    {
+        if(GameManager.Instance.gameState == GameState.CatchFishGame)
+        {
+            waterPlane.GetComponent<MeshRenderer>().material = waterRed;
+        }
+        else
+        {
+            waterPlane.GetComponent<MeshRenderer>().material = waterBlue;
         }
     }
 
@@ -96,8 +110,12 @@ public class GameManager : MonoBehaviour
     private void ApplyForce(GameObject instance, Vector3 force)
     {
         Rigidbody rb = instance.GetComponent<Rigidbody>();
+        rb.useGravity = true;
         rb.AddForce(force, ForceMode.Impulse);
-        rb.AddTorque(Vector3.left * 10f, ForceMode.Force);
+        float random = Random.Range(15, 30);
+        //rb.AddTorque(Vector3.left * 100f, ForceMode.Force);
+        //rb.AddTorque(Vector3.up * 100f, ForceMode.Force);
+        //  rb.AddTorque(Vector3.right * 100f, ForceMode.Force);
     }
 
     private void Shoot()
@@ -140,6 +158,14 @@ public class GameManager : MonoBehaviour
         _gun.SetActive(true);
         _inputSystem.enabled = true;
 
+        StartCoroutine(WaitforSecond());
+        
+
+    }
+
+    private IEnumerator WaitforSecond()
+    {
+        yield return new WaitForSeconds(0.2f);
         gameState = GameState.GunGame;
     }
 
