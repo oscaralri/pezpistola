@@ -13,19 +13,21 @@ public class ScoreManager : MonoBehaviour
     public void AddPoints()
     {
         points++;
-        _pointsText.text = $"Points: {points}";
+        _pointsText.text = $"_{points}";
     }
 
     public void AddMisses()
     {
         if(++misses < 3)
         {
-            _missesText.text = $"Misses: {misses}/3";
+            _missesText.text = $"xxx {misses}/3";
         }
         else
         {
             Debug.Log("has perdido");
-            SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            SceneManager.LoadScene("EndScene", LoadSceneMode.Single);
         }
     }
 }

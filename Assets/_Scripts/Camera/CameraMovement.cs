@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     [SerializeField] private Transform _transformLookAt;
-    [SerializeField] private float zoomPos = 6f;
+    [SerializeField] private float zoomPos;
     private Vector3 _initPos;
     private Quaternion _initRot;
 
@@ -41,6 +41,7 @@ public class CameraMovement : MonoBehaviour
     public void ResetCamera()
     {
         transform.LookAt(Vector3.left, Vector3.up);
+        transform.rotation =_initRot;
         StartCoroutine(GoToTarget(transform.position, _initPos));
     }
 

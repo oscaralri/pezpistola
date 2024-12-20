@@ -3,7 +3,16 @@ guid: 0604c95bba6557b478f46813d6d9f6ad
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _inputSystem: {instanceID: 0}
+  - _animationManager: {instanceID: 0}
+  - _gun: {instanceID: 0}
+  - _fishRod: {instanceID: 0}
+  - scoreManager: {instanceID: 0}
+  - waterBlue: {instanceID: 0}
+  - waterRed: {instanceID: 0}
+  - waterPlane: {instanceID: 0}
+  - cursorSkin: {fileID: 2800000, guid: 52548436f2969524e91ed3adfa0155e0, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

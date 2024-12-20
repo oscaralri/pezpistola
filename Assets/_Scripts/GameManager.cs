@@ -19,13 +19,15 @@ public class GameManager : MonoBehaviour
     public ScoreManager scoreManager;
     [SerializeField] private Material waterBlue, waterRed;
     [SerializeField] private GameObject waterPlane;
+    [SerializeField] private Texture2D cursorSkin;
+    private Vector2 cursorHotspot = new Vector2(32,32);
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else if (Instance != this)
         {
@@ -35,13 +37,17 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(GameManager.Instance.gameState == GameState.CatchFishGame)
+        if(GameManager.Instance != null)
         {
-            waterPlane.GetComponent<MeshRenderer>().material = waterRed;
-        }
-        else
-        {
-            waterPlane.GetComponent<MeshRenderer>().material = waterBlue;
+
+            if (GameManager.Instance.gameState == GameState.CatchFishGame)
+            {
+                waterPlane.GetComponent<MeshRenderer>().material = waterRed;
+            }
+            else
+            {
+                waterPlane.GetComponent<MeshRenderer>().material = waterBlue;
+            }
         }
     }
 
@@ -52,6 +58,7 @@ public class GameManager : MonoBehaviour
         _camera = Camera.main.GetComponent<CameraMovement>();
         Cursor.visible = false;
         scoreManager = GetComponent<ScoreManager>();
+         Cursor.SetCursor(cursorSkin, cursorHotspot, CursorMode.Auto);
     }
 
     private void OnEnable()

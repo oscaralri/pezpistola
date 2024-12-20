@@ -6,7 +6,7 @@ using UnityEngine;
 public class FishSpawner : MonoBehaviour
 {
     [SerializeField] private List<GameObject> fishPrefabs;
-    [SerializeField] private Vector3 posSpawn = new Vector3(0f, 0f, 0f);
+    [SerializeField] private Vector3 posSpawn;
     [SerializeField] private float timeOnGun = 2f;
     public GameObject fishInstance;
     public Vector3 force;
@@ -36,13 +36,23 @@ public class FishSpawner : MonoBehaviour
         yield return new WaitForSeconds(timeDespawn);
         if (GameManager.Instance.gameState == GameState.CatchFishGame)
         {
-            Destroy(instance);
+            //Destroy(instance);
+            GameObject[] fishes = GameObject.FindGameObjectsWithTag("Fish");
+            foreach(var fish in fishes)
+            {
+                Destroy(fish);
+            }
             callback?.Invoke();
         }
         if(GameManager.Instance.gameState == GameState.GunGame)
         {
             yield return new WaitForSeconds(timeOnGun);
-            Destroy(instance);
+            //Destroy(instance);
+            GameObject[] fishes = GameObject.FindGameObjectsWithTag("Fish");
+            foreach (var fish in fishes)
+            {
+                Destroy(fish);
+            }
             callback?.Invoke();
         }
     }

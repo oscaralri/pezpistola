@@ -7,6 +7,6 @@ public class ButtonReplay : MonoBehaviour
 {
     public void OnPress()
     {
-        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+        SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
     }
 }
